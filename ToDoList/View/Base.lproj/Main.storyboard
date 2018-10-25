@@ -23,7 +23,7 @@
                                     <navigationItem title="To Do List" id="Apr-2g-CTM">
                                         <barButtonItem key="leftBarButtonItem" title="Reset" id="Bur-H0-Ax9">
                                             <connections>
-                                                <action selector="resetButtonTapped" destination="BYZ-38-t0r" id="26p-s9-G5u"/>
+                                                <action selector="resetButtonTapped:" destination="BYZ-38-t0r" id="SMy-Ju-nOZ"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="VYr-aJ-j1J">

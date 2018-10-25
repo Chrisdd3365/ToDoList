@@ -11,23 +11,28 @@ import CoreData
 
 class ToDoListViewController: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var toDoListTableView: UITableView!
     
+    //MARK: - Properties
     var tasks = [ToDoObject]()
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         displayTasksIntoTableView()
     }
     
+    //MARK: - Action
     @IBAction func plusButtonTapped() {
         addTask()
     }
     
-    @IBAction func resetButtonTapped() {
-        
+    @IBAction func resetButtonTapped(_ sender: Any) {
+        removeTask()
     }
     
+    //MARK: - Methods
     private func addTask() {
         let alert = UIAlertController(title: "Add new task", message: nil, preferredStyle: .alert)
         alert.addTextField { textField in
@@ -43,6 +48,25 @@ class ToDoListViewController: UIViewController {
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func removeTask() {
+        let appDelegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ToDoObject")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for managedObject in results {
+                let managedObjectData: NSManagedObject = managedObject as! NSManagedObject
+                context.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Deleted all my data in ToDoObject error : \(error) \(error.userInfo)")
+        }
+        self.tasks.removeAll()
+        toDoListTableView.reloadData()
+        saveViewContext()
     }
     
     private func saveViewContext() {
@@ -64,7 +88,7 @@ class ToDoListViewController: UIViewController {
         }
     }
 }
-
+//Extension UITableView
 extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
