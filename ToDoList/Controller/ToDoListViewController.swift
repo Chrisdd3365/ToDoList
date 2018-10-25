@@ -38,7 +38,7 @@ class ToDoListViewController: UIViewController {
         alert.addTextField { textField in
             textField.placeholder = "Task"
         }
-        let action = UIAlertAction(title: "Post", style: .default) { _ in
+        let action = UIAlertAction(title: "Add", style: .default) { _ in
             let task = alert.textFields!.first!.text!
             let toDoObject = ToDoObject(context: AppDelegate.viewContext)
             toDoObject.task = task
